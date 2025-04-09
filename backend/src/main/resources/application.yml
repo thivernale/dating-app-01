@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: backend
+  ai:
+    openai:
+      api-key: ${SPRING_AI_OPENAI_API_KEY}
+    stabilityai:
+      api-key: ${SPRING_AI_STABILITYAI_API_KEY}
