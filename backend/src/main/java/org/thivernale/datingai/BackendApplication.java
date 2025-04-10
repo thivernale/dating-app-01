@@ -40,10 +40,13 @@ public class BackendApplication {
             profileRepository.save(new Profile(
                 "001", "Some", "Name", 23, "I am Some Name", "", "Caucasian", Gender.UNKNOWN, "?"
             ));
+            profileRepository.save(new Profile(
+                "002", "Jane", "Doe", 42, "Bio unknown", "", "Caucasian", Gender.FEMALE, "?"
+            ));
             conversationRepository.save(new Conversation(
                 "CONV001",
                 "001",
-                List.of(new Message("001", "Boop", LocalDateTime.now()))));
+                List.of(new Message("-1", "Hello! How are you doing?", LocalDateTime.now()))));
 
             // find
             profileRepository.findAll()

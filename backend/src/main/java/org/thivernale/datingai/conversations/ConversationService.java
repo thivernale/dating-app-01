@@ -8,6 +8,7 @@ import org.thivernale.datingai.profiles.ProfileRepository;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -23,15 +24,18 @@ class ConversationService {
         this.profileRepository = profileRepository;
     }
 
-    public Conversation createConversation(ConversationRequest conversationRequest) {
+    public Conversation findOrCreateConversation(ConversationRequest conversationRequest) {
         getProfile(conversationRequest.profileId());
 
-        Conversation conversation = new Conversation(
-            UUID.randomUUID()
-                .toString(),
-            conversationRequest.profileId(),
-            Collections.emptyList());
-        return conversationRepository.save(conversation);
+        return conversationRepository.findOneByProfileId(conversationRequest.profileId())
+            .orElseGet(() -> {
+                Conversation conversation = new Conversation(
+                    UUID.randomUUID()
+                        .toString(),
+                    conversationRequest.profileId(),
+                    Collections.emptyList());
+                return conversationRepository.save(conversation);
+            });
     }
 
     private Profile getProfile(String profileId) {
@@ -39,13 +43,13 @@ class ConversationService {
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found"));
     }
 
-    private Conversation getConversation(String conversationId) {
-        return conversationRepository.findById(conversationId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Conversation not found"));
+    public Optional<Conversation> getConversation(String conversationId) {
+        return conversationRepository.findById(conversationId);
     }
 
     public Conversation addMessageToConversation(String conversationId, Message message) {
-        Conversation conversation = getConversation(conversationId);
+        Conversation conversation = getConversation(conversationId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Conversation not found"));
 
         final String OUR_PROFILE_ID = "-1"; //TODO define later
 
