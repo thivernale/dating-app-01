@@ -33,6 +33,9 @@ public class BackendApplication {
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
+            // reset
+            conversationRepository.deleteAll();
+
             // save
             profileRepository.save(new Profile(
                 "001", "Some", "Name", 23, "I am Some Name", "", "Caucasian", Gender.UNKNOWN, "?"
