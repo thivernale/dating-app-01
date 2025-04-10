@@ -3,30 +3,65 @@ package org.thivernale.datingai.conversations;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.thivernale.datingai.profiles.Profile;
 import org.thivernale.datingai.profiles.ProfileRepository;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.UUID;
 
 @Service
 class ConversationService {
-    private final ConversationRepository repository;
+    private final ConversationRepository conversationRepository;
     private final ProfileRepository profileRepository;
 
-    ConversationService(ConversationRepository repository, ProfileRepository profileRepository) {
-        this.repository = repository;
+    ConversationService(
+        ConversationRepository conversationRepository,
+        ProfileRepository profileRepository
+    ) {
+        this.conversationRepository = conversationRepository;
         this.profileRepository = profileRepository;
     }
 
     public Conversation createConversation(ConversationRequest conversationRequest) {
-        profileRepository.findById(conversationRequest.profileId())
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found"));
+        getProfile(conversationRequest.profileId());
 
         Conversation conversation = new Conversation(
             UUID.randomUUID()
                 .toString(),
             conversationRequest.profileId(),
             Collections.emptyList());
-        return repository.save(conversation);
+        return conversationRepository.save(conversation);
+    }
+
+    private Profile getProfile(String profileId) {
+        return profileRepository.findById(profileId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found"));
+    }
+
+    private Conversation getConversation(String conversationId) {
+        return conversationRepository.findById(conversationId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Conversation not found"));
+    }
+
+    public Conversation addMessageToConversation(String conversationId, Message message) {
+        Conversation conversation = getConversation(conversationId);
+
+        final String OUR_PROFILE_ID = "-1"; //TODO define later
+
+        if (!OUR_PROFILE_ID
+            .equals(message.authorId())) {
+            if (!conversation.profileId()
+                .equals(message.authorId())) {
+                throw new ResponseStatusException(
+                    HttpStatus.EXPECTATION_FAILED,
+                    "Conversation and message profiles don't match");
+            }
+            getProfile(message.authorId());
+        }
+
+        conversation.messages()
+            .add(new Message(message.authorId(), message.text(), LocalDateTime.now()));
+        return conversationRepository.save(conversation);
     }
 }

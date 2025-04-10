@@ -1,6 +1,8 @@
 package org.thivernale.datingai.conversations;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.time.LocalDateTime;
 
-public record Message(String authorId, String text, LocalDateTime sentAt) {
+public record Message(@NotBlank String authorId, @NotBlank String text, LocalDateTime sentAt) {
 }
