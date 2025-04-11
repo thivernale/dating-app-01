@@ -3,6 +3,16 @@ spring:
     name: backend
   ai:
     openai:
-      api-key: ${SPRING_AI_OPENAI_API_KEY}
+      api-key: ${SPRING_AI_OPENAI_API_KEY:}
+      chat:
+        options:
+          model: gpt-4o-mini
     stabilityai:
       api-key: ${SPRING_AI_STABILITYAI_API_KEY}
+logging:
+  level:
+    root: warn
+    org.thivernale: debug
+dating-ai:
+  character:
+    user: "{ id:'-1', firstName:'Jane', lastName:'Doe', age:42, ethnicity:'Caucasian', gender:'FEMALE', bio:'Software engineer, lifelong learner. I like running, extreme music and vegetables.', imageUrl:'', myersBriggsPersonalityType:'INTP' }"
