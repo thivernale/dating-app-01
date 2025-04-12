@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-class ConversationService {
+public class ConversationService {
     private final ConversationRepository conversationRepository;
     private final ProfileRepository profileRepository;
 
