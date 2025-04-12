@@ -8,7 +8,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/conversations")
+@RequestMapping("/api/conversations")
 public class ConversationController {
     private final ConversationService conversationService;
 
