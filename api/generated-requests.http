@@ -1,0 +1,47 @@
+### --------------------- ### Dating App API ### ----------------------
+GET http://localhost:8080/
+
+### Get random profile
+GET http://localhost:8080/api/profiles/random
+
+> {%
+  const { id } = response.body;
+  client.global.set("profileId", id);
+%}
+
+### Swipe right (create a match)
+POST http://localhost:8080/api/matches
+Content-Type: application/json
+
+{
+  "profileId": "{{profileId}}"
+}
+
+### Get all matches
+GET http://localhost:8080/api/matches
+
+### Create a new conversation
+POST http://localhost:8080/api/conversations
+Content-Type: application/json
+
+{
+  "profileId": "{{profileId}}"
+}
+
+> {%
+  const { id } = response.body;
+  client.global.set("conversationId", id);
+%}
+
+### Post a new message to conversation
+//@conversationId = 520d9607-0f60-44e6-a4a9-f2937fb07492
+POST http://localhost:8080/api/conversations/{{conversationId}}
+Content-Type: application/json
+
+{
+  "authorId": "-1",
+  "text": "Hello! How are you?"
+}
+
+### Get conversation
+GET http://localhost:8080/api/conversations/{{conversationId}}
