@@ -1,4 +1,8 @@
-export function MatchesList() {
+type Props = {
+  onSelectMatch: () => void;
+};
+
+export function MatchesList({ onSelectMatch }: Props) {
   return (
     <div className="rounded-lg p-4 shadow-lg">
       <h2 className="mb-4 text-3xl font-bold">Matches</h2>
@@ -7,10 +11,10 @@ export function MatchesList() {
           <li key={i} className="mb-2">
             <button
               className="flex w-full cursor-pointer items-center gap-4 rounded-lg hover:bg-gray-100"
-              onClick={() => {}}
+              onClick={() => onSelectMatch()}
             >
               <img
-                src="/src/assets/1dee7059-ee63-41d9-813a-b40deedd88dc.jpg"
+                src="/1dee7059-ee63-41d9-813a-b40deedd88dc.jpg"
                 alt=""
                 className="h-16 w-16 rounded-full object-cover"
               />

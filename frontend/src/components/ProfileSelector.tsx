@@ -5,7 +5,7 @@ export function ProfileSelector() {
     <div className="overflow-hidden rounded-lg shadow-lg">
       <div className="relative">
         <img
-          src="/src/assets/1dee7059-ee63-41d9-813a-b40deedd88dc.jpg"
+          src="/1dee7059-ee63-41d9-813a-b40deedd88dc.jpg"
           alt=""
           style={{ width: '100%', height: '100%' }}
         />

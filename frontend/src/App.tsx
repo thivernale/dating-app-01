@@ -1,12 +1,25 @@
 import { MessageCircle, User } from 'lucide-react';
+import { useState } from 'react';
 import { ProfileSelector } from './components/ProfileSelector';
 import { MatchesList } from './components/MatchesList';
-import { useState } from 'react';
+import { ProfileChat } from './components/ProfileChat';
 
-type ActiveView = 'selector' | 'matches';
+type ActiveView = 'selector' | 'matches' | 'chat';
 
 function App() {
   const [currentView, setCurrentView] = useState<ActiveView>('selector');
+
+  const showCurrentView = () => {
+    switch (currentView) {
+      case 'matches':
+        return <MatchesList onSelectMatch={() => setCurrentView('chat')} />;
+      case 'chat':
+        return <ProfileChat />;
+      case 'selector':
+      default:
+        return <ProfileSelector />;
+    }
+  };
 
   return (
     <>
@@ -21,7 +34,7 @@ function App() {
             className={`${currentView === 'matches' && 'fill-current'} cursor-pointer`}
           />
         </nav>
-        {currentView === 'selector' ? <ProfileSelector /> : <MatchesList />}
+        {showCurrentView()}
       </div>
     </>
   );
