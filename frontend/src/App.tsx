@@ -1,5 +1,6 @@
 import { MessageCircle, User } from 'lucide-react';
-import { ProfileSelector } from './ProfileSelector';
+import { ProfileSelector } from './components/ProfileSelector';
+import { MatchesList } from './components/MatchesList';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
           <MessageCircle />
         </nav>
         <ProfileSelector />
+        <MatchesList />
       </div>
     </>
   );

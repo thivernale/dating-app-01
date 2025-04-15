@@ -18,13 +18,13 @@ export function ProfileSelector() {
       </div>
       <div className="mb-4 flex justify-center gap-4 p-4">
         <button
-          className="rounded-full bg-red-500 p-4 hover:bg-red-600"
+          className="cursor-pointer rounded-full bg-red-500 p-4 hover:bg-red-600"
           onClick={() => {}}
         >
           <X size={24} className="text-3xl font-extrabold text-white" />
         </button>
         <button
-          className="rounded-full bg-green-500 p-4 hover:bg-green-600"
+          className="cursor-pointer rounded-full bg-green-500 p-4 hover:bg-green-600"
           onClick={() => {}}
         >
           <Heart size={24} className="text-3xl font-extrabold text-white" />
