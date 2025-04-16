@@ -1,0 +1,177 @@
+openapi: "3.1.0"
+info:
+  title: "dating_app_01 API"
+  description: "dating_app_01 API"
+  version: "1.0.0"
+servers:
+  - url: "https://dating_app_01"
+paths:
+  /api/profiles/random:
+    get:
+      summary: "GET api/profiles/random"
+      operationId: "getRandomProfile"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Profile"
+
+  /api/matches:
+    get:
+      summary: "GET api/matches"
+      operationId: "getAllMatches"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Match"
+    post:
+      summary: "POST api/matches"
+      operationId: "createMatch"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMatchRequest"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Match"
+
+  /api/conversations:
+    post:
+      summary: "POST api/conversations"
+      operationId: "createNewConversation"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConversationRequest"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Conversation"
+
+  /api/conversations/{conversationId}:
+    post:
+      summary: "POST api/conversations/{conversationId}"
+      operationId: "addMessageToConversation"
+      parameters:
+        - name: "conversationId"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Message"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Conversation"
+    get:
+      summary: "GET api/conversations/{conversationId}"
+      operationId: "getConversation"
+      parameters:
+        - name: "conversationId"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Conversation"
+
+components:
+  schemas:
+    Profile:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+        firstName:
+          type: "string"
+        lastName:
+          type: "string"
+        age:
+          type: "integer"
+          format: "int32"
+        bio:
+          type: "string"
+        imageUrl:
+          type: "string"
+        ethnicity:
+          type: "string"
+        gender:
+          type: "string"
+          enum:
+            - "MALE"
+            - "FEMALE"
+            - "NON_BINARY"
+            - "UNKNOWN"
+        myersBriggsPersonalityType:
+          type: "string"
+    Match:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+        profile:
+          $ref: "#/components/schemas/Profile"
+        conversationId:
+          type: "string"
+    CreateMatchRequest:
+      type: "object"
+      properties:
+        profileId:
+          type: "string"
+    ConversationRequest:
+      type: "object"
+      properties:
+        profileId:
+          type: "string"
+    Message:
+      type: "object"
+      properties:
+        authorId:
+          type: "string"
+        text:
+          type: "string"
+        sentAt:
+          type: "string"
+          format: "date-time"
+    Conversation:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+        profileId:
+          type: "string"
+        messages:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Message"
