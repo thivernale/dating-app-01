@@ -28,11 +28,11 @@ public class MatchService {
         this.profileRepository = profileRepository;
     }
 
-    public List<Match> getAllMatches() {
+    List<Match> getAllMatches() {
         return matchRepository.findAll();
     }
 
-    public Match createOrGetMatch(CreateMatchRequest createMatchRequest) {
+    Match createOrGetMatch(CreateMatchRequest createMatchRequest) {
         System.out.println("createOrGetMatch for profileId " + createMatchRequest.profileId());
         return matchRepository.findMatchByProfile_Id(createMatchRequest.profileId())
             .orElseGet(() ->
@@ -45,7 +45,7 @@ public class MatchService {
             );
     }
 
-    private Conversation createOrGetConversation(String profileId) {
+    Conversation createOrGetConversation(String profileId) {
         return conversationRepository.findOneByProfileId(profileId)
             .orElseGet(() -> conversationRepository.save(new Conversation(
                 UUID.randomUUID()

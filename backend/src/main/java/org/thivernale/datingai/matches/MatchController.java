@@ -20,7 +20,7 @@ public class MatchController {
     }
 
     @PostMapping
-    public Match getRandomProfile(@RequestBody @Valid final CreateMatchRequest createMatchRequest) {
+    public Match createMatch(@RequestBody @Valid final CreateMatchRequest createMatchRequest) {
         return matchService.createOrGetMatch(createMatchRequest);
     }
 }

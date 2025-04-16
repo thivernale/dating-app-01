@@ -1,5 +1,6 @@
 package org.thivernale.datingai.conversations;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,6 +17,9 @@ public class ConversationService {
     private final ConversationRepository conversationRepository;
     private final ProfileRepository profileRepository;
 
+    @Value("#{${dating-ai.character.user}.id}:'-1'")
+    private String characterId;
+
     ConversationService(
         ConversationRepository conversationRepository,
         ProfileRepository profileRepository
@@ -24,7 +28,7 @@ public class ConversationService {
         this.profileRepository = profileRepository;
     }
 
-    public Conversation findOrCreateConversation(ConversationRequest conversationRequest) {
+    Conversation findOrCreateConversation(ConversationRequest conversationRequest) {
         getProfile(conversationRequest.profileId());
 
         return conversationRepository.findOneByProfileId(conversationRequest.profileId())
@@ -43,17 +47,15 @@ public class ConversationService {
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found"));
     }
 
-    public Optional<Conversation> getConversation(String conversationId) {
+    Optional<Conversation> getConversation(String conversationId) {
         return conversationRepository.findById(conversationId);
     }
 
-    public Conversation addMessageToConversation(String conversationId, Message message) {
+    Conversation addMessageToConversation(String conversationId, Message message) {
         Conversation conversation = getConversation(conversationId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Conversation not found"));
 
-        final String OUR_PROFILE_ID = "-1"; //TODO define later
-
-        if (!OUR_PROFILE_ID
+        if (!characterId
             .equals(message.authorId())) {
             if (!conversation.profileId()
                 .equals(message.authorId())) {

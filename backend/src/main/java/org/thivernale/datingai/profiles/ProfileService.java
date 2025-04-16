@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 public class ProfileService {
     private final ProfileRepository profileRepository;
 
-    @Value("#{${dating-ai.character.user}.id}")
+    @Value("#{${dating-ai.character.user}.id}:'-1'")
     private String characterId;
 
-    public ProfileService(ProfileRepository profileRepository) {
+    ProfileService(ProfileRepository profileRepository) {
         this.profileRepository = profileRepository;
     }
 
-    public Profile getRandomProfile() {
+    Profile getRandomProfile() {
         return profileRepository.getRandomProfile(characterId);
     }
 }
