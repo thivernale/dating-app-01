@@ -1,4 +1,6 @@
 // @ts-nocheck
 /* tslint:disable */
 /* eslint-disable */
-export * from './DefaultApi';
+export * from './ConversationApi';
+export * from './MatchApi';
+export * from './ProfileApi';

@@ -4,10 +4,15 @@ info:
   description: "dating_app_01 API"
   version: "1.0.0"
 servers:
-  - url: "https://dating_app_01"
+  - url: "https://localhost:8080"
+tags:
+  - name: "Profile"
+  - name: "Match"
+  - name: "Conversation"
 paths:
   /api/profiles/random:
     get:
+      tags: [ "Profile" ]
       summary: "GET api/profiles/random"
       operationId: "getRandomProfile"
       responses:
@@ -20,6 +25,7 @@ paths:
 
   /api/matches:
     get:
+      tags: [ "Match" ]
       summary: "GET api/matches"
       operationId: "getAllMatches"
       responses:
@@ -32,6 +38,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Match"
     post:
+      tags: [ "Match" ]
       summary: "POST api/matches"
       operationId: "createMatch"
       requestBody:
@@ -50,6 +57,7 @@ paths:
 
   /api/conversations:
     post:
+      tags: [ "Conversation" ]
       summary: "POST api/conversations"
       operationId: "createNewConversation"
       requestBody:
@@ -68,6 +76,7 @@ paths:
 
   /api/conversations/{conversationId}:
     post:
+      tags: [ "Conversation" ]
       summary: "POST api/conversations/{conversationId}"
       operationId: "addMessageToConversation"
       parameters:
@@ -90,6 +99,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Conversation"
     get:
+      tags: [ "Conversation" ]
       summary: "GET api/conversations/{conversationId}"
       operationId: "getConversation"
       parameters:

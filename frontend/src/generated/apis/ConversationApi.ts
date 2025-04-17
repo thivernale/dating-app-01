@@ -18,33 +18,20 @@ import * as runtime from '../runtime';
 import type {
   Conversation,
   ConversationRequest,
-  CreateMatchRequest,
-  Match,
   Message,
-  Profile,
 } from '../models/index';
 import {
     ConversationFromJSON,
     ConversationToJSON,
     ConversationRequestFromJSON,
     ConversationRequestToJSON,
-    CreateMatchRequestFromJSON,
-    CreateMatchRequestToJSON,
-    MatchFromJSON,
-    MatchToJSON,
     MessageFromJSON,
     MessageToJSON,
-    ProfileFromJSON,
-    ProfileToJSON,
 } from '../models/index';
 
 export interface AddMessageToConversationRequest {
     conversationId: string;
     message: Message;
-}
-
-export interface CreateMatchOperationRequest {
-    createMatchRequest: CreateMatchRequest;
 }
 
 export interface CreateNewConversationRequest {
@@ -58,7 +45,7 @@ export interface GetConversationRequest {
 /**
  * 
  */
-export class DefaultApi extends runtime.BaseAPI {
+export class ConversationApi extends runtime.BaseAPI {
 
     /**
      * POST api/conversations/{conversationId}
@@ -104,42 +91,6 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * POST api/matches
-     */
-    async createMatchRaw(requestParameters: CreateMatchOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Match>> {
-        if (requestParameters['createMatchRequest'] == null) {
-            throw new runtime.RequiredError(
-                'createMatchRequest',
-                'Required parameter "createMatchRequest" was null or undefined when calling createMatch().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/api/matches`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: CreateMatchRequestToJSON(requestParameters['createMatchRequest']),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => MatchFromJSON(jsonValue));
-    }
-
-    /**
-     * POST api/matches
-     */
-    async createMatch(requestParameters: CreateMatchOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Match> {
-        const response = await this.createMatchRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * POST api/conversations
      */
     async createNewConversationRaw(requestParameters: CreateNewConversationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Conversation>> {
@@ -176,32 +127,6 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * GET api/matches
-     */
-    async getAllMatchesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Match>>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/api/matches`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(MatchFromJSON));
-    }
-
-    /**
-     * GET api/matches
-     */
-    async getAllMatches(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Match>> {
-        const response = await this.getAllMatchesRaw(initOverrides);
-        return await response.value();
-    }
-
-    /**
      * GET api/conversations/{conversationId}
      */
     async getConversationRaw(requestParameters: GetConversationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Conversation>> {
@@ -231,32 +156,6 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async getConversation(requestParameters: GetConversationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Conversation> {
         const response = await this.getConversationRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * GET api/profiles/random
-     */
-    async getRandomProfileRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Profile>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/api/profiles/random`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ProfileFromJSON(jsonValue));
-    }
-
-    /**
-     * GET api/profiles/random
-     */
-    async getRandomProfile(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Profile> {
-        const response = await this.getRandomProfileRaw(initOverrides);
         return await response.value();
     }
 
