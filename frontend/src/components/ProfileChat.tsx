@@ -15,7 +15,9 @@ export function ProfileChat() {
       <div className="mb-4 h-[50vh] overflow-y-auto rounded-lg border border-gray-200 p-4">
         {['Message', 'Message'].map((message, i) => (
           <div key={i} className="mb-2">
-            <div className={`mb-4 p-4 ${i % 2 ? 'bg-gray-100' : ''} `}>
+            <div
+              className={`mb-4 p-4 ${i % 2 ? 'bg-gray-100 dark:bg-gray-800' : ''} `}
+            >
               {message}
             </div>
           </div>

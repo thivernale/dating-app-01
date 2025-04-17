@@ -1,13 +1,32 @@
 import { MessageCircle, User } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ProfileSelector } from './components/ProfileSelector';
 import { MatchesList } from './components/MatchesList';
 import { ProfileChat } from './components/ProfileChat';
+import { Profile } from './generated';
+import { datingApi } from './api/dating-api';
 
 type ActiveView = 'selector' | 'matches' | 'chat';
 
 function App() {
   const [currentView, setCurrentView] = useState<ActiveView>('selector');
+
+  const [profile, setProfile] = useState<Profile>();
+
+  function getRandomProfile() {
+    datingApi.profileController
+      .getRandomProfile()
+      .then((value) => setProfile(value));
+  }
+
+  function handleSwipe(direction: string) {
+    if (direction === 'right') {
+      console.log('TODO save swipe right as match');
+    }
+    getRandomProfile();
+  }
+
+  useEffect(getRandomProfile, []);
 
   const showCurrentView = () => {
     switch (currentView) {
@@ -17,7 +36,7 @@ function App() {
         return <ProfileChat />;
       case 'selector':
       default:
-        return <ProfileSelector />;
+        return <ProfileSelector profile={profile} onSwipe={handleSwipe} />;
     }
   };
 
