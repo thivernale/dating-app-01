@@ -9,6 +9,7 @@ spring:
           model: gpt-4o-mini
     stabilityai:
       api-key: ${SPRING_AI_STABILITYAI_API_KEY}
+
 logging:
   level:
     root: warn
@@ -17,3 +18,6 @@ logging:
 dating-ai:
   character:
     user: "{ id:'-1', firstName:'Jane', lastName:'Doe', age:42, ethnicity:'Caucasian', gender:'FEMALE', bio:'Software engineer, lifelong learner. I like running, extreme music and vegetables.', imageUrl:'', myersBriggsPersonalityType:'INTP' }"
+application:
+  frontend:
+    url: http://localhost:5173
