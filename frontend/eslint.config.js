@@ -8,7 +8,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint
   .config(
-    { ignores: ['dist'] },
+    { ignores: ['dist', 'src/generated'] },
     {
       extends: [js.configs.recommended, ...tseslint.configs.recommended],
       files: ['**/*.{ts,tsx}'],
@@ -34,6 +34,7 @@ export default tseslint
           'warn',
           { allowConstantExport: true },
         ],
+        '@typescript-eslint/prefer-nullish-coalescing': 'error',
       },
     },
   )
