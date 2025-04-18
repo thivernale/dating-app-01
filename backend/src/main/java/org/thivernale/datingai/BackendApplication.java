@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.thivernale.datingai.profiles.ProfileCreationService;
 
 @SpringBootApplication
@@ -39,7 +41,8 @@ public class BackendApplication {
         };
     }
 
-    //@Bean
+    @Bean
+    @ConditionalOnProperty("dating-ai.init-profiles.enabled")
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
             profileCreationService.saveProfilesToDatabase();

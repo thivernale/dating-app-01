@@ -17,7 +17,7 @@ public class ConversationService {
     private final ConversationRepository conversationRepository;
     private final ProfileRepository profileRepository;
 
-    @Value("#{${dating-ai.character.user}.id}:'-1'")
+    @Value("#{${dating-ai.character.user:\"{id:'-1'}\"}.id}")
     private String characterId;
 
     ConversationService(

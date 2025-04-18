@@ -12,8 +12,9 @@ import java.util.Map;
 
 @Service
 public class ProfileCreationService {
-    private static final String PROFILES_FILE_PATH = "src/main/resources/static/profiles.json";
     private final ProfileRepository profileRepository;
+    @Value("${dating-ai.init-profiles.profiles-file-path:}")
+    private String profilesFilePath;
     @Value("#{${dating-ai.character.user}}")
     private Map<String, String> userProfileProperties;
 
@@ -23,7 +24,7 @@ public class ProfileCreationService {
 
     public void saveProfilesToDatabase() {
         // 1. save profiles from file
-        try (FileReader fileReader = new FileReader(PROFILES_FILE_PATH)) {
+        try (FileReader fileReader = new FileReader(profilesFilePath)) {
             var profiles = new ObjectMapper().readValue(fileReader, new TypeReference<List<Profile>>() {
             });
             profileRepository.deleteAll();

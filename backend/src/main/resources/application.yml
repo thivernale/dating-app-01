@@ -18,6 +18,9 @@ logging:
 dating-ai:
   character:
     user: "{ id:'-1', firstName:'Jane', lastName:'Doe', age:42, ethnicity:'Caucasian', gender:'FEMALE', bio:'Software engineer, lifelong learner. I like running, extreme music and vegetables.', imageUrl:'', myersBriggsPersonalityType:'INTP' }"
+  init-profiles:
+    enabled: false
+    profiles-file-path: "src/main/resources/static/profiles.json"
 application:
   frontend:
     url: http://localhost:5173

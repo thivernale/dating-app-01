@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class ProfileService {
     private final ProfileRepository profileRepository;
 
-    @Value("#{${dating-ai.character.user}.id}:'-1'")
+    @Value("#{${dating-ai.character.user:\"{id:'-1'}\"}.id}")
     private String characterId;
 
     ProfileService(ProfileRepository profileRepository) {
