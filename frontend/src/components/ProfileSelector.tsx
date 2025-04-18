@@ -10,7 +10,7 @@ type Props = {
 export function ProfileSelector({ profile, onSwipe }: Props) {
   const imagesBaseUrl = env.VITE_IMAGES_BASE_URL;
 
-  if (!profile) return <div>Loading...</div>;
+  if (!profile?.id) return <div>Loading...</div>;
 
   return (
     <div className="overflow-hidden rounded-lg shadow-lg">

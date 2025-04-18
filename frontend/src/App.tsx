@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react';
 import { ProfileSelector } from './components/ProfileSelector';
 import { MatchesList } from './components/MatchesList';
 import { ProfileChat } from './components/ProfileChat';
-import { Profile } from './generated';
+import { Match, Profile } from './generated';
 import { datingApi } from './api/dating-api';
 
 type ActiveView = 'selector' | 'matches' | 'chat';
 
 function App() {
   const [currentView, setCurrentView] = useState<ActiveView>('selector');
-
-  const [profile, setProfile] = useState<Profile>();
+  const [profile, setProfile] = useState<Profile>({} as Profile);
+  const [currentMatch, setCurrentMatch] = useState<Match>({} as Match);
 
   function getRandomProfile() {
     datingApi.profileController
@@ -19,11 +19,24 @@ function App() {
       .then((value) => setProfile(value));
   }
 
+  function saveMatch(profileId: string) {
+    datingApi.matchController
+      .createMatch({ createMatchRequest: { profileId } })
+      .then((match) => {
+        console.log(match);
+      });
+  }
+
   function handleSwipe(direction: string) {
-    if (direction === 'right') {
-      console.log('TODO save swipe right as match');
-    }
     getRandomProfile();
+    if (direction === 'right') {
+      saveMatch(profile?.id as string);
+    }
+  }
+
+  function handleSelectMatch(match: Match) {
+    setCurrentMatch(match);
+    setCurrentView('chat');
   }
 
   useEffect(getRandomProfile, []);
@@ -31,9 +44,14 @@ function App() {
   const showCurrentView = () => {
     switch (currentView) {
       case 'matches':
-        return <MatchesList onSelectMatch={() => setCurrentView('chat')} />;
+        return <MatchesList onSelectMatch={handleSelectMatch} />;
       case 'chat':
-        return <ProfileChat />;
+        return (
+          <ProfileChat
+            profile={currentMatch.profile!}
+            conversationId={currentMatch.conversationId!}
+          />
+        );
       case 'selector':
       default:
         return <ProfileSelector profile={profile} onSwipe={handleSwipe} />;
